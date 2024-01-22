@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- <div class="container-fluid">-->
+<!--     <div class="row">-->
+<!--         <div class="col-4">-->
+<!--            <h3 class="fw-bold">All Task Status</h3>-->
+<!--         </div>-->
+<!--     </div>-->
+<!--</div>-->
+
+<!--<hr>-->
+
+<h3 class="fw-bold text-center block"> ALL TASK STATUS</h3>
+<hr>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+
+
+        <div class="col-8">
+            <form action="" method="POST">
+                {% csrf_token %}
+
+                <div class="input-group input-group-sm mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Filter</span>
+                    </div>
+
+                    <input type="text" class="form-control" name="q" aria-label="Small"
+                           aria-describedby="inputGroup-sizing-sm" placeholder="Search for name, task, client, status...">
+
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block"> Search Task</button>
+
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col-2"></div>
+
+    </div>
+</div>
+<hr>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr class="text-center">
+        <th scope="col">Name</th>
+        <th scope="col">Task</th>
+        <th scope="col">Area/Extent</th>
+        <th scope="col">Count</th>
+        <th scope="col">Client</th>
+        <th scope="col">Group</th>
+        <th scope="col">IJO #</th>
+        <th scope="col">Date Start</th>
+        <th scope="col">Date End</th>
+        <th scope="col">Status</th>
+        <th scope="col">Progress</th>
+        <th scope="col">PTS REF #</th>
+        <th scope="col">Invoice #</th>
+        <th scope="col">Remarks</th>
+
+        {% if request.user.is_superuser %}
+        <th scope="col">View</th>
+        {% endif %}
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for record in records %}
+    <tr class="text-center">
+        <th scope="row">{{ record.user.last_name }}, {{ record.user.first_name }}</th>
+        <td>{{ record.name.name }}</td>
+        <td>{{ record.area_extent }}</td>
+        <td>{{ record.count }}</td>
+        <td>{{ record.client.name }}</td>
+        <td>{{ record.group.name }}</td>
+        <td>{{ record.ijo_no|default_if_none:"" }}</td>
+        <td>{{ record.date_start|date:"D, M d, Y" }}</td>
+        <td>{{ record.date_finish }}</td>
+        <td>{{ record.status|default_if_none:"" }}</td>
+        <td>{{ record.progress|default_if_none:"" }}</td>
+        <td>{{ record.pts_ref|default_if_none:"" }}</td>
+        <td>{{ record.invoice|default_if_none:"" }}</td>
+        <td>{{ record.remarks|default_if_none:"" }}</td>
+
+        {% if request.user.is_superuser %}
+        <td><a class="btn btn-success btn-sm" href="{% url 'view-status' record.id %}"><i class="fa fa-eye"
+                                                                                          aria-hidden="true"></i></a>
+        {% endif %}
+
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<br>
+
+<div class="d-flex justify-content-center container">
+    <a href="{% url 'export-task-csv' %}?{{request.GET.urlencode}}">
+        <button type="submit" name="export" value="export" class="btn btn-success btn-md btn-block"> Download CSV
+        </button>
+    </a>
+</div>
+
+<br>
+
+
+{% endblock content %}

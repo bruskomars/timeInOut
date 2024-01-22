@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card container">
+  <div class="card-header bg-secondary" ><br>
+      <h5><strong><i class="fa fa-calendar" aria-hidden="true"></i> &nbsp; {{ record.date }} </strong> </h5>
+      <br>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <p><strong>Time Start:</strong> &nbsp; {{ record.time_start }}</p>
+    </li>
+    <li class="list-group-item">
+        <p><strong>Time End:</strong> {{ record.time_end }}</p>
+    </li>
+    <li class="list-group-item">
+        <p><strong>Total Time:</strong> {{ record.total_time }}</p>
+    </li>
+    <li class="list-group-item">
+        <p><strong>L/HD:</strong> {{ record.l_hd }}</p>
+    </li>
+  </ul>
+    <div class="card-body">
+    <a href="{% url 'profile' request.user.id %}" class="btn btn-primary card-link">Back</a>
+    <a href="{% url 'update-record' record.id %}" class="btn btn-info card-link">Edit</a>
+    <a href="{% url 'delete-record' record.id %}" class="btn btn-danger card-link">Delete</a>
+  </div>
+</div>
+
+{% endblock content %}

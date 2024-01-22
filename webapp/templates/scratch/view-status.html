@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card container">
+    <div class="card-header bg-secondary"><br>
+        <h5><strong><i class="fa fa-user" aria-hidden="true"></i> &nbsp; {{ record.user.last_name }}, </strong> {{
+            record.user.first_name }}</h5>
+        <br>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <p><strong>Task:</strong> {{ record.name.name }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Area/Extent:</strong> {{ record.area_extent }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Count:</strong> {{ record.count }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Client:</strong> {{ record.client.name }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Group:</strong> {{ record.group.name }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Date Start:</strong> {{ record.date_start|date:"D, M d, Y" }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Date Finish:</strong> {{ record.date_finish }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Status:</strong> {{ record.status }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Progress:</strong> {{ record.progress }}</p>
+        </li>
+
+        {% if request.user.is_superuser %}
+        <li class="list-group-item">
+            <p><strong>IJO #:</strong> {{ record.ijo_no }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>PTS REF#:</strong> {{ record.pts_ref }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Invoice#:</strong> {{ record.invoice }}</p>
+        </li>
+        <li class="list-group-item">
+            <p><strong>Remarks:</strong> {{ record.remarks }}</p>
+        </li>
+        {% endif %}
+
+    </ul>
+    <div class="card-body">
+        <a href="{% url 'status-report' request.user.id %}" class="btn btn-primary card-link">Back</a>
+        <a href="{% url 'edit-status' record.id %}" class="btn btn-info card-link">Edit</a>
+        <a href="{% url 'delete-status' record.id %}" class="btn btn-danger card-link">Delete</a>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+{% block content %}
+<div class="container bg-light shadow-md p-3 form-layout">
+    {% if record == 'create' %}
+    <h3> Create new task </h3>
+    {% else %}
+    <h3> Update task </h3>
+    {% endif %}
+    <hr>
+    <form method="POST" autocomplete="off" >
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label" for=task-choice>Task</label>
+            <input type="text" value="{{record.name}}" class="form-control" name="task" list="task-list" />
+            <datalist id="task-list">
+              <select id="task-choice">
+                {% for task in tasks %}
+                <option value="{{task.name}}">{{task.name}}</option>
+                {% endfor %}
+              </select>
+            </datalist>
+        </div>
+
+
+        <br>
+        {{ form.area_extent|as_crispy_field }}
+        <br>
+        {{ form.count|as_crispy_field }}
+
+        <div class="form-group">
+            <label class="form-label" for=client-choice>Client</label>
+            <input type="text" value="{{record.client}}" class="form-control" name="client" list="client-list" />
+            <datalist id="client-list">
+              <select id="client-choice">
+                {% for client in clients %}
+                <option value="{{client.name}}">{{client.name}}</option>
+                {% endfor %}
+              </select>
+            </datalist>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label class="form-label" for=group-choice>Group</label>
+            <input type="text" value="{{record.group}}" class="form-control" name="group" list="group-list" />
+            <datalist id="group-list">
+              <select id="group-choice">
+                {% for group in groups %}
+                <option value="{{group.name}}">{{group.name}}</option>
+                {% endfor %}
+              </select>
+            </datalist>
+        </div>
+        <br>
+        {{ form.date_start|as_crispy_field }}
+        <br>
+        {{ form.date_finish|as_crispy_field }}
+        <br>
+        {{ form.status|as_crispy_field }}
+        <br>
+        {{ form.progress|as_crispy_field }}
+        <br>
+
+        {% if request.user.is_superuser %}
+
+        {{ form.ijo_no|as_crispy_field }}
+        <br>
+        {{ form.pts_ref|as_crispy_field }}
+        <br>
+        {{ form.invoice|as_crispy_field }}
+        <br>
+        {{ form.remarks|as_crispy_field }}
+        <br>
+        {% endif %}
+
+
+        <button type="submit" class="btn btn-primary w-100 btn-block p-2"> Submit &nbsp; <i class="fa fa-check"
+                                                                                            aria-hidden="true"></i>
+        </button>
+        <br>
+        <br>
+        <a class="btn btn-danger w-100 btn-block p-2" href={{ request.META.HTTP_REFERER }}>Cancel</a>
+
+
+    </form>
+</div>
+
+
+{% endblock content %}

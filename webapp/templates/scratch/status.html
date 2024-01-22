@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <div class="container-fluid">
+     <div class="row">
+         <div class="col-4">
+            <h3 class="fw-bold">Task Status</h3>
+         </div>
+
+        <div class="col-6"></div>
+
+         <div class="fs-5 col-2">
+           <a href="{% url 'profile' request.user.id %}" class="">Back to Time Report</a>
+         </div>
+
+     </div>
+</div>
+
+<hr>
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-2 d-flex justify-content-center">
+
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'create-status' %}">
+                Add new task status &nbsp; <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </a>
+        </div>
+
+
+
+
+        <div class="col-8"></div>
+
+        <div class="col-2">
+<!--            <form action="" method="POST">-->
+<!--                {% csrf_token %}-->
+<!--                <input class="btn btn-outline-primary btn-sm" type="date" name="date" id="calendar"> &nbsp;-->
+<!--                <button type="submit" class="btn btn-primary btn-sm  btn-block "> Filter by date</button>-->
+
+
+<!--            </form>-->
+        </div>
+
+    </div>
+</div>
+<hr>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr class="text-center">
+        <th scope="col">Name</th>
+        <th scope="col">Task</th>
+        <th scope="col">Area/Extent</th>
+        <th scope="col">Count</th>
+        <th scope="col">Client</th>
+        <th scope="col">Group</th>
+        <th scope="col">IJO #</th>
+        <th scope="col">Date Start</th>
+        <th scope="col">Date Finish</th>
+        <th scope="col">Status</th>
+        <th scope="col">Progress</th>
+        <th scope="col">PTS REF #</th>
+        <th scope="col">Invoice #</th>
+        <th scope="col">Remarks</th>
+
+        <th scope="col">View</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for record in records %}
+    <tr class="text-center">
+        <th scope="row">{{ record.user.last_name }}, {{ record.user.first_name }}</th>
+        <td>{{ record.name.name }}</td>
+        <td>{{ record.area_extent }}</td>
+        <td>{{ record.count }}</td>
+        <td>{{ record.client.name }}</td>
+        <td>{{ record.group.name }}</td>
+        <td>{{ record.ijo_no|default_if_none:"" }}</td>
+        <td>{{ record.date_start|date:"D, M d, Y" }}</td>
+        <td>{{ record.date_finish }}</td>
+        <td>{{ record.status|default_if_none:"" }}</td>
+        <td>{{ record.progress|default_if_none:"" }}</td>
+        <td>{{ record.pts_ref|default_if_none:"" }}</td>
+        <td>{{ record.invoice|default_if_none:"" }}</td>
+        <td>{{ record.remarks|default_if_none:"" }}</td>
+        <td><a class="btn btn-success btn-sm" href="{% url 'view-status' record.id %}"><i class="fa fa-eye"
+                                                                                          aria-hidden="true"></i></a>
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+
+{% endblock content %}

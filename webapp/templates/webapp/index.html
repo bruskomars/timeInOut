@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body>
+
+        <br>
+        <br>
+
+        <div class="text-center">
+
+            <h3 class="fw-bold"> TGP - Southwoods </h3>
+
+            <br>
+
+            <h5> TIME IN and TIME OUT </h5>
+
+            <hr>
+            <br>
+
+            {% if request.user.is_authenticated %}
+            <strong><h5>Welcome {{ request.user.last_name }}, {{ request.user.first_name }}</h5></strong>
+            {% else %}
+
+            <a class="btn btn-primary" type="button" href="{% url 'register' %}"> Create your account &nbsp; <i class="fa fa-user-plus" aria-hidden="true"></i> </a>
+
+            {% endif %}
+        </div>
+
+</body>
+
+{% endblock content %}

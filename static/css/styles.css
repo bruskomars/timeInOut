@@ -1,0 +1,17 @@
+.form-layout{
+
+    border-radius: 15px;
+    width: 500px;
+
+}
+
+#sign-out {
+    margin-right: 30px;
+    margin-left: 10px;
+}
+
+#base-container {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+

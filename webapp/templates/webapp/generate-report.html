@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="fw-bold text-center block"> GENERATE TIME REPORT </h3>
+<hr>
+<div class="container">
+    <div class="row">
+
+
+        <div class="col-10">
+            <form action="" method="POST">
+                {% csrf_token %}
+
+                <div class="input-group input-group-sm mb-1">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Filter</span>
+                    </div>
+
+                    <input type="text" class="form-control" name="q" aria-label="Small"
+                           aria-describedby="inputGroup-sizing-sm" placeholder="Search for name, date...">
+
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+
+
+                    <span>From:&nbsp; &nbsp;<input class="btn btn-outline-primary btn-sm" type="date" name="date"
+                                                   id="calendar"> &nbsp;</span>
+
+                    <span>To:&nbsp; &nbsp;<input class="btn btn-outline-primary btn-sm" type="date" name="date2"
+                                                 id="calendar2"> &nbsp; </span>
+
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block"> Generate Filter</button>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<hr>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr class="text-center">
+        <th scope="col">Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time In</th>
+        <th scope="col">Time Out</th>
+        <th scope="col">L/HD</th>
+
+        {% if request.user.is_authenticated %}
+        <th scope="col">View</th>
+        {% endif %}
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for record in records %}
+    <tr class="text-center">
+        <td>{{ record.user.last_name }}, &nbsp;{{ record.user.first_name }}</td>
+        <td>{{ record.date|date:"D, M d, Y" }}</td>
+        <td>{{ record.time_start }}</td>
+        <td>{{ record.time_end }}</td>
+        <td>{{ record.l_hd }}</td>
+
+        {% if request.user.is_authenticated %}
+        <td><a class="btn btn-success btn-sm" href="{% url 'view-record' record.id %}"><i class="fa fa-eye"
+                                                                                          aria-hidden="true"></i></a>
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+
+    </tbody>
+
+
+</table>
+<br>
+
+<div class="d-flex justify-content-center container">
+    <a href="{% url 'export-timereport-csv' %}?{{request.GET.urlencode}}">
+        <button type="submit" name="export" value="export" class="btn btn-success btn-md btn-block"> Download CSV
+        </button>
+    </a>
+</div>
+
+<br>
+<br>
+
+
+{% endblock content %}

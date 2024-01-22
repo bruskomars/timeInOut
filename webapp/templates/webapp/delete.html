@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center">
+    <div class="card text-center" style="width: 28rem;">
+      <div class="card-body">
+        <h5 class="card-title">Delete Record</h5>
+        <p class="card-text">Are you sure you want to delete record?</p>
+
+          <form action="" method="POST">
+              {% csrf_token %}
+              <input class="btn btn-danger" type="submit" value="Confirm" />
+              <a href={{ request.META.HTTP_REFERER }} class="btn btn-secondary">Cancel</a>
+          </form>
+
+      </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

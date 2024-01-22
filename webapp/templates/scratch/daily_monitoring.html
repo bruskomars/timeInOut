@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3 class="fw-bold text-center">DAILY MONITORING</h3>
+
+<hr>
+<div class="container">
+    <div class="row">
+
+        <div class="col-3 d-flex justify-content-end">
+            <h4>{{ date }}</h4>
+        </div>
+
+        <div class="col-6"></div>
+        <div class="col-3">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input class="btn btn-outline-primary btn-sm" type="date" name="date" id="calendar"> &nbsp;
+                <button type="submit" class="btn btn-primary btn-sm  btn-block "> Filter by date</button>
+
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<hr>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr class="text-center">
+        <th scope="col">Employee #</th>
+        <th scope="col">Name</th>
+        <th scope="col">Task</th>
+        <th scope="col">Area/Extent</th>
+        <th scope="col">Client</th>
+        <th scope="col">Date</th>
+        <th scope="col">Time Start</th>
+        <th scope="col">Time End</th>
+        <th scope="col">Total Time</th>
+        <th scope="col">Status</th>
+        <th scope="col">L/HD</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for record in records %}
+    <tr class="text-center">
+        <th scope="row">{{ record.user.employee_id }}</th>
+        <td>{{ record.user.last_name }}, &nbsp;{{ record.user.first_name }}</td>
+        <td>{{ record.task.name }}</td>
+        <td>{{ record.area_extent }}</td>
+        <td>{{ record.client.name }}</td>
+        <td>{{ record.date|date:"D, M d, Y" }}</td>
+        <td>{{ record.time_start|time:"h:i A" }}</td>
+        <td>{{ record.time_end }}</td>
+        <td >{{ record.total_time }}</td>
+        <td>{{ record.status }}</td>
+        <td>{{ record.l_hd }}</td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+
+{% endblock content %}

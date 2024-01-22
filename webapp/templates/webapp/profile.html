@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <h3>TIME IN / OUT</h3>
+</div>
+<hr>
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-10 d-flex justify-content-center">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input class="btn btn-outline-primary btn-sm" type="date" name="date" id="calendar"> &nbsp;
+                <button type="submit" class="btn btn-primary btn-sm  btn-block "> Filter by date</button>
+
+
+            </form>
+        </div>
+        {% if request.user.is_superuser %}
+        <div class="col-2 d-flex justify-content-center">
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'create-record' %}">
+                Add new time report &nbsp; <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </a> &nbsp; &nbsp;
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+<hr>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr class="text-center">
+        <th scope="col">Date</th>
+        <th scope="col">Time In</th>
+        <th scope="col">Time Out</th>
+        <th scope="col">L/HD</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for record in records %}
+    <tr class="text-center">
+        <td>{{ record.date|date:"D, M d, Y" }}</td>
+        <td>{{ record.time_start }}</td>
+        <td>{{ record.time_end }}</td>
+        <td>{{ record.l_hd }}</td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+
+{% endblock content %}

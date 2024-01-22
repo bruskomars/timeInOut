@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+{% block content %}
+<div class="container bg-light shadow-md p-3 form-layout">
+    {% if record == 'create' %}
+    <h3> Create new record </h3>
+    {% else %}
+    <h3> Update record </h3>
+    {% endif %}
+    <hr>
+    <form method="POST" autocomplete="off">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label" for=user-choice>User</label>
+            <input required type="text" value="{{record.user.last_name}}" class="form-control" name="username" list="user-list" />
+            <datalist id="user-list">
+              <select id="user-choice">
+                {% for user in users %}
+                <option value="{{user.username}}">{{user.first_name}} {{user.last_name}}</option>
+                {% endfor %}
+              </select>
+            </datalist>
+
+        </div>
+
+        <br>
+        {{ form.date|as_crispy_field }}
+        <br>
+        {{ form.time_start|as_crispy_field }}
+        <br>
+        {{ form.time_end|as_crispy_field }}
+        <br>
+        {{ form.l_hd|as_crispy_field }}
+        <br>
+
+
+        <button type="submit" class="btn btn-primary w-100 btn-block p-2"> Submit &nbsp; <i class="fa fa-check"
+                                                                                            aria-hidden="true"></i>
+        </button>
+        <br>
+        <br>
+        <a class="btn btn-danger w-100 btn-block p-2" href={{ request.META.HTTP_REFERER }}>Cancel</a>
+
+
+    </form>
+</div>
+
+
+{% endblock content %}
